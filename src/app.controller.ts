@@ -22,11 +22,9 @@ export class AppController {
     res.send(sample_tags);
   }
   @Get('tag/:tagName')
-  getTagName(@Param('tagName') tagName: string, @Res() res) {
-    const tags = simple_food.filter((food) =>
-      food.name.toLowerCase().includes(tagName.toLowerCase()),
-    );
-    res.send(tags);
+  searchFoodByTag(@Param('tagName') tagName: string, @Res() res) {
+    const food = simple_food.filter((food) => food.tags?.includes(tagName));
+    res.send(food);
   }
   @Get('food/:foodId')
   getFoodId(@Param('foodId') foodId: string, @Res() res) {
