@@ -29,6 +29,10 @@ export class AppController {
   @Get('food/:foodId')
   getFoodId(@Param('foodId') foodId: string, @Res() res) {
     const food = simple_food.find((food) => food.id == foodId);
-    res.send(food);
+    if (!food) {
+      res.status(404).send({ error: 'Food item not found' });
+    } else {
+      res.send(food);
+    }
   }
 }
