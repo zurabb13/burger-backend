@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { simple_food } from './data';
 
 @Injectable()
 export class AppService {
+  constructor() {}
   getHello() {
-    return simple_food;
+    return 'hello world';
   }
 }
