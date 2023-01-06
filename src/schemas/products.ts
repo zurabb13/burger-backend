@@ -5,31 +5,31 @@ export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-  @Prop()
+  @Prop({ required: true })
   id: string;
 
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true })
   price: string;
 
-  @Prop()
+  @Prop({ required: true })
   tag: string;
 
-  @Prop()
+  @Prop({ required: true })
   favorite: string;
 
-  @Prop()
+  @Prop({ required: true })
   stars: number;
 
-  @Prop()
+  @Prop({ required: true })
   url: string;
 
-  @Prop()
+  @Prop({ required: true })
   origins: string[];
 
-  @Prop()
+  @Prop({ required: true })
   cookTime: string;
 }
 

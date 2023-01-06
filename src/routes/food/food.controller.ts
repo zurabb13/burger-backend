@@ -1,8 +1,5 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
-import { simple_food } from '../../data';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Product, ProductDocument } from '../../schemas/products';
+import { Controller, Get, Param } from '@nestjs/common';
+import { Product } from '../../schemas/products';
 import { FoodService } from './food.service';
 
 @Controller('food')
