@@ -3,19 +3,18 @@ import { simple_food } from '../../data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from '../../schemas/products';
+import { FoodService } from './food.service';
 
 @Controller('food')
 export class FoodController {
-  constructor(
-    @InjectModel(Product.name) private foodsModel: Model<ProductDocument>,
-  ) {}
-  @Get(':foodId')
-  getFoodId(@Param('foodId') foodId: string, @Res() res) {
-    const food = simple_food.find((food) => food.id === foodId);
-    if (!food) {
-      res.status(404).send({ error: 'Food Item not found' });
-    } else {
-      res.send(food);
-    }
+  constructor(private readonly foodService: FoodService) {}
+
+  @Get()
+  async food(): Promise<Product[]> {
+    return this.foodService.product();
+  }
+  @Get(':id')
+  async foodId(@Param('id') id: string): Promise<Product> {
+    return this.foodService.search(id);
   }
 }
