@@ -4,6 +4,7 @@
 .env
 docker-compose.yaml
 # Logs
+
 logs
 *.log
 npm-debug.log*
