@@ -6,12 +6,13 @@ import { Product } from '../../schemas/products';
 export class TagController {
   constructor(private readonly tagService: TagService) {}
   @Get()
-  async getTag(): Promise<Product[]> {
-    return await this.tagService.allTag();
+  async getTag() {
+    return await this.tagService.getAllTag();
   }
 
   @Get(':tagName')
-  async searchFoodByTag(@Param('tagName') tagName: string): Promise<Product[]> {
-    return await this.tagService.tagSearch(tagName);
+  async searchFoodByTag(@Param('tagName') tagName: string) {
+    const tags = await this.tagService.tagSearch(tagName);
+    return tags;
   }
 }

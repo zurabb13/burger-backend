@@ -15,10 +15,10 @@ export class Product {
   price: string;
 
   @Prop({ required: true })
-  tag: string;
+  tag: string[];
 
   @Prop({ required: true })
-  favorite: string;
+  favorite: boolean;
 
   @Prop({ required: true })
   stars: number;
