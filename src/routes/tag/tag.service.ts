@@ -40,7 +40,8 @@ export class TagService {
     tags.unshift(all);
     return tags;
   }
-  tagSearch(id: string) {
-    return this.tagModel.find({ id }).exec();
+  async tagSearch(tagName: string) {
+    const tag = await this.tagModel.find({ tags: { $in: [tagName] } });
+    return tag;
   }
 }
