@@ -12,7 +12,10 @@ export class TagController {
 
   @Get(':tagName')
   async searchFoodByTag(@Param('tagName') tagName: string) {
-    const tags = await this.tagService.tagSearch(tagName);
-    return tags;
+    // return await this.tagService.tagSearch(tagName);
+    const foods = await this.tagService.tagModel.find({
+      tags: { $in: [tagName] },
+    });
+    return foods;
   }
 }

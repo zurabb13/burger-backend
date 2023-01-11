@@ -6,14 +6,9 @@ import { Model } from 'mongoose';
 @Injectable()
 export class TagService {
   constructor(
-    @InjectModel(Product.name) private tagModel: Model<ProductDocument>,
+    @InjectModel(Product.name) public tagModel: Model<ProductDocument>,
   ) {}
-  tagSearch(id: string) {
-    const tagRgx = new RegExp(id);
-    return this.tagModel.find({ name: { $regex: tagRgx } }).exec();
-    // const tagName = this.tagModel.find({ tags: { $eq: id } }).exec();
-    // return tagName;
-  }
+
   // async allTag(): Promise<Product[]> {
   //   return this.tagModel.find().exec();
   // }
@@ -44,5 +39,8 @@ export class TagService {
     };
     tags.unshift(all);
     return tags;
+  }
+  tagSearch(id: string) {
+    return this.tagModel.find({ id }).exec();
   }
 }

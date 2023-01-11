@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build: ./
+    container_name: nestjs
+    environment:
+      - PORT=3000
+      - SECRET='saba'
+      -  MONGO='mongodb+srv://burger:123@cluster0.rxgethx.mongodb.net/shop?retryWrites=true&w=majority'
+      - TIME='30d'
+      - EXPIRATION_TIME='10s'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - nestjs_network
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - "./mongo-data:/data/db"
+    networks:
+      - nestjs_network
+
+
+
+networks:
+  nestjs_network:
+    driver: bridge

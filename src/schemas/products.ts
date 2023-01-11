@@ -6,25 +6,22 @@ export type ProductDocument = Product & Document;
 @Schema()
 export class Product {
   @Prop({ required: true })
-  id: string;
-
-  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true })
-  price: string;
+  price: number;
 
-  @Prop({ required: true })
-  tag: string[];
+  @Prop()
+  tags: string[];
 
-  @Prop({ required: true })
+  @Prop({ default: false })
   favorite: boolean;
 
   @Prop({ required: true })
   stars: number;
 
   @Prop({ required: true })
-  url: string;
+  imageUrl: string;
 
   @Prop({ required: true })
   origins: string[];
