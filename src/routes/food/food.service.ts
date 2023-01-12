@@ -12,6 +12,6 @@ export class FoodService {
     return this.productModel.find().exec();
   }
   async search(id): Promise<Product> {
-    return this.productModel.findOne({ id: id }).exec();
+    return this.productModel.findOne({ _id: id }).exec();
   }
 }
