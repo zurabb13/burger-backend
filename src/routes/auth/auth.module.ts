@@ -3,11 +3,11 @@ import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema, UsersMod } from '../../schemas/user';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtConstants } from '../../strategy/constant';
-import { AuthService } from '../../services/auth/auth.service';
+import { JwtConstants } from '../../passport/strategy/constant';
+import { AuthService } from '../../common/services/auth/auth.service';
 import { UserService } from '../user/user.service';
-import { LocalStrategy } from '../../strategy/local.strategy';
-import { HashService } from '../../services/hash/hash.service';
+import { LocalStrategy } from '../../passport/strategy/local.strategy';
+import { HashService } from '../../common/services/hash/hash.service';
 
 @Module({
   imports: [

@@ -4,11 +4,11 @@ import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema, UsersMod } from '../../schemas/user';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtConstants } from '../../strategy/constant';
-import { HashService } from '../../services/hash/hash.service';
-import { AuthService } from '../../services/auth/auth.service';
-import { JwtStrategy } from '../../strategy/jwt.strategy';
-import { LocalStrategy } from '../../strategy/local.strategy';
+import { JwtConstants } from '../../passport/strategy/constant';
+import { HashService } from '../../common/services/hash/hash.service';
+import { AuthService } from '../../common/services/auth/auth.service';
+import { JwtStrategy } from '../../passport/strategy/jwt.strategy';
+import { LocalStrategy } from '../../passport/strategy/local.strategy';
 
 @Module({
   imports: [

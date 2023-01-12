@@ -12,9 +12,7 @@ import { AuthModule } from './routes/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env' }),
-    MongooseModule.forRoot(
-      'mongodb+srv://burger:123@cluster0.rxgethx.mongodb.net/shop?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(process.env.MONGO),
     FoodModule,
     TagModule,
     SearchModule,

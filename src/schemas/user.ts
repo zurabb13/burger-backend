@@ -5,20 +5,26 @@ export type UserDocument = UsersMod & Document;
 
 @Schema()
 export class UsersMod {
-  // @Prop({ required: true })
-  // userId: string;
+  @Prop()
+  id: string;
 
   @Prop({ required: true })
-  username: string;
+  email: string;
 
   @Prop({ required: true })
   password: string;
+
+  // @Prop()
+  // confirmPassword: string;
 
   @Prop()
   address: string;
 
   @Prop()
   isAdmin: boolean;
+
+  @Prop()
+  token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UsersMod);

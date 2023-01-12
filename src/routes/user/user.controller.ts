@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { LoginDtoModel } from '../../dto/login.dto';
+import { LoginDtoModel } from '../../common/dto/login.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('register')
@@ -10,7 +10,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   getUserByUserName(@Param() param) {
-    return this.userService.getUserByUserName(param.username);
+    return this.userService.getUserByUserName(param.email);
   }
   @Post()
   registerUser(@Body() createUser: LoginDtoModel) {
