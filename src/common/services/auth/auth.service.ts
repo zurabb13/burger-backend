@@ -1,61 +1,69 @@
-import { Injectable } from '@nestjs/common';
-import { UserService } from '../../../routes/user/user.service';
-import { HashService } from '../hash/hash.service';
-import { JwtService } from '@nestjs/jwt';
-import { UsersEntity } from '../../entity/UsersEntity';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { User } from '../../interfaces/user-models';
 import jwt from 'jsonwebtoken';
+import { InjectModel } from '@nestjs/mongoose';
+import { UserDocument, UsersMod } from '../../../schemas/user';
+import mongoose, { Model } from 'mongoose';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private hashService: HashService,
-    private jwt: JwtService,
+    @InjectModel(UsersMod.name) private userModel: Model<UserDocument>,
+    private jwtSrv: JwtService,
   ) {}
-
-  async validation(email: string, pass: string): Promise<any> {
-    const user = await this.userService.getUserByUserName(email);
-    if (user && (await this.hashService.comparePassword(pass, user.password))) {
-      return user;
+  async login(email: string, password: string) {
+    const user = await this.userModel.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return this.gToken(user);
+    } else {
+      throw new BadRequestException('Username or password is invalid');
     }
-    return null;
   }
 
-  async login(user: User) {
-    const payload = {
-      email: user.email,
-      password: user.password,
-      id: user.id,
+  async register(
+    name: string,
+    email: string,
+    password: string,
+    address: string,
+  ) {
+    const user = await this.userModel.findOne({ email });
+    if (user) {
+      throw new BadRequestException('User is already exist, please login!');
+    }
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    const newUser: any = {
+      id: new mongoose.Types.ObjectId().toHexString(),
+      name,
+      email,
+      password: encryptedPassword,
+      address,
+      isAdmin: false,
     };
-    return {
-      id: user.id,
+    const dbUser = await this.userModel.create(newUser);
+    return this.gToken(dbUser);
+  }
+
+  private gToken(user: any) {
+    const payload = {
+      _id: user._id,
       email: user.email,
       isAdmin: user.isAdmin,
-      name: user.name,
-      payload,
     };
-  }
-
-  async generateTokenReponse(user: User) {
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        isAdmin: user.isAdmin,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '30d',
-      },
-    );
+    const token = this.jwtSrv.sign(payload, {
+      secret: process.env.SECRET,
+      expiresIn: process.env.TIME,
+    });
     return {
-      id: user.id,
+      _id: user._id,
       email: user.email,
       name: user.name,
       address: user.address,
       isAdmin: user.isAdmin,
-      token,
+      password: user.password,
+      token: token,
     };
   }
 }

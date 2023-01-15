@@ -1,32 +1,22 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema, UsersMod } from '../../schemas/user';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtConstants } from '../../passport/strategy/constant';
-import { HashService } from '../../common/services/hash/hash.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthService } from '../../common/services/auth/auth.service';
-import { JwtStrategy } from '../../passport/strategy/jwt.strategy';
-import { LocalStrategy } from '../../passport/strategy/local.strategy';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: UsersMod.name, schema: UserSchema }]),
     JwtModule.register({
-      secret: JwtConstants.secret,
+      secret: process.env.SECRET,
       signOptions: {
-        expiresIn: '30d',
+        expiresIn: process.env.TIME,
       },
     }),
   ],
   controllers: [UserController],
-  providers: [
-    UserService,
-    HashService,
-    AuthService,
-    JwtStrategy,
-    LocalStrategy,
-  ],
+  providers: [AuthService, JwtService],
+  exports: [JwtService],
 })
 export class UserModule {}

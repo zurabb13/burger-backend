@@ -1,12 +1,16 @@
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type UserDocument = UsersMod & Document;
 
 @Schema()
 export class UsersMod {
-  @Prop()
-  id: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true,
+    required: true,
+  })
+  _id: string;
 
   @Prop({ required: true })
   email: string;
@@ -17,14 +21,14 @@ export class UsersMod {
   // @Prop()
   // confirmPassword: string;
 
-  @Prop()
+  @Prop({ required: true })
   address: string;
 
   @Prop()
   isAdmin: boolean;
 
-  @Prop()
-  token: string;
+  @Prop({ required: true })
+  name: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UsersMod);
