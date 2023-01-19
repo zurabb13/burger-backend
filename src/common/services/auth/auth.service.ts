@@ -48,7 +48,7 @@ export class AuthService {
 
   private gToken(user: any) {
     const payload = {
-      _id: user._id,
+      id: user.id,
       email: user.email,
       isAdmin: user.isAdmin,
     };
@@ -57,7 +57,7 @@ export class AuthService {
       expiresIn: process.env.TIME,
     });
     return {
-      _id: user._id,
+      id: user.id,
       email: user.email,
       name: user.name,
       address: user.address,
